@@ -127,7 +127,7 @@ export default function AyatDetailPage() {
           </Link>
 
           {/* Tombol bookmark*/}
-          <button
+          {/* <button
             onClick={toggleBookmark}
             className={`p-2 rounded-lg transition-all shadow-sm ${
               isBookmarked
@@ -163,7 +163,7 @@ export default function AyatDetailPage() {
                 />
               </svg>
             )}
-          </button>
+          </button> */}
         </div>
 
         {/* Judul */}

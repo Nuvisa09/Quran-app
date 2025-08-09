@@ -20,6 +20,8 @@ interface Surah {
 type Bookmark = {
   surah: string;
   ayat: number;
+  namaLatin: string;
+  arti: string;
 };
 
 export default function HomePage() {
@@ -36,7 +38,21 @@ export default function HomePage() {
   useEffect(() => {
     const saved = localStorage.getItem("bookmarkedAyats");
     if (saved) {
-      setBookmarks(JSON.parse(saved));
+      const parsed: Bookmark[] = JSON.parse(saved);
+
+      // Bersihkan duplikat berdasarkan surah + ayat
+      const uniqueBookmarks = parsed.filter(
+        (bookmark, index, self) =>
+          index ===
+          self.findIndex(
+            (b) => b.surah === bookmark.surah && b.ayat === bookmark.ayat
+          )
+      );
+
+      setBookmarks(uniqueBookmarks);
+
+      // Optional: Simpan lagi yang sudah bersih ke localStorage
+      localStorage.setItem("bookmarkedAyats", JSON.stringify(uniqueBookmarks));
     }
   }, []);
 
@@ -116,20 +132,6 @@ export default function HomePage() {
                       </span>
                       Ayat {bookmark.ayat}
                     </span>
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-yellow-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg> */}
                   </Link>
 
                   {/* Tombol Hapus */}
